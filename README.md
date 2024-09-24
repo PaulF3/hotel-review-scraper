@@ -1,4 +1,4 @@
-# Airbnb Review Scraper
+# Hotel Review Scraper
 
 This project scrapes top 5-star reviews from Airbnb listing pages and provides a web interface for easy use.
 
@@ -7,8 +7,8 @@ This project scrapes top 5-star reviews from Airbnb listing pages and provides a
 1. Ensure you have Python 3.7+ installed.
 2. Clone this repository:
    ```
-   git clone https://github.com/PaulF3/airbnb-review-scraper.git
-   cd airbnb-review-scraper
+   git clone https://github.com/PaulF3/hotel-review-scraper.git
+   cd hotel-review-scraper
    ```
 3. Create a virtual environment (optional but recommended):
    ```
