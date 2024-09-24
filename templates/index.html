@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Airbnb Review Scraper</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Airbnb Review Scraper</h1>
+        <form id="scraper-form">
+            <div class="form-group">
+                <label for="url">Airbnb Listing URL:</label>
+                <input type="url" id="url" name="url" required>
+            </div>
+            <div class="form-group">
+                <label for="save-path">Save Results To:</label>
+                <input type="text" id="save-path" name="save_path" required>
+            </div>
+            <button type="submit">Scrape Reviews</button>
+        </form>
+        <div id="results"></div>
+    </div>
+    <script>
+        document.getElementById('scraper-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const form = e.target;
+            const formData = new FormData(form);
+            
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = 'Scraping reviews...';
+            
+            try {
+                const response = await fetch('/', {
+                    method: 'POST',
+                    body: formData
+                });
+                const reviews = await response.json();
+                
+                let resultsHTML = '<h2>Scraped Reviews:</h2>';
+                reviews.forEach((review, index) => {
+                    resultsHTML += `
+                        <div class="review">
+                            <h3>Review ${index + 1}</h3>
+                            <p><strong>Name:</strong> ${review.name}</p>
+                            <p><strong>Date:</strong> ${review.date}</p>
+                            <p><strong>Image:</strong> ${review.local_img_path || 'No image'}</p>
+                            <p><strong>Review:</strong> ${review.text.substring(0, 100)}...</p>
+                            <p><strong>Rating:</strong> 5 stars</p>
+                        </div>
+                    `;
+                });
+                
+                resultsDiv.innerHTML = resultsHTML;
+            } catch (error) {
+                resultsDiv.innerHTML = `Error: ${error.message}`;
+            }
+        });
+    </script>
+</body>
+</html>
